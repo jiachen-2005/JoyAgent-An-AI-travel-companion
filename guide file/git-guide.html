@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>短命分支工作流 · Short-Lived Branch Workflow</title>
+<style>
+:root{
+  --ink:#171A19;
+  --ink-2:#454E4A;
+  --ink-3:#79857F;
+  --line:#D8DEDB;
+  --main:#2C7A57;
+  --main-soft:#E4F0EA;
+  --feat:#B4682C;
+  --code-bg:#F1F4F2;
+  --f-body:"Noto Sans CJK SC","Noto Sans SC",-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;
+  --f-mono:"DejaVu Sans Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{background:#fff;color:var(--ink)}
+body{font-family:var(--f-body);font-size:10.5pt;line-height:1.62;margin:0;
+  padding:0 0 2rem;-webkit-font-smoothing:antialiased}
+.page{max-width:46rem;margin:0 auto;padding:2.2rem 1.6rem 0}
+
+header{border-bottom:2px solid var(--ink);padding-bottom:.7rem;margin-bottom:1.4rem}
+.kick{font-family:var(--f-mono);font-size:7.5pt;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--main);margin:0 0 .35rem}
+h1{font-size:17pt;line-height:1.25;margin:0;font-weight:700;letter-spacing:-.01em}
+h1 .alt{display:block;font-size:11.5pt;font-weight:500;color:var(--ink-3);margin-top:.15rem}
+
+h2{font-size:12.5pt;font-weight:700;margin:1.5rem 0 .1rem;
+  display:flex;align-items:baseline;gap:.5rem;page-break-after:avoid}
+h2 .n{font-family:var(--f-mono);font-size:8.5pt;color:var(--main);font-weight:600}
+h2 .alt{font-size:9.5pt;font-weight:500;color:var(--ink-3)}
+
+.bi{display:grid;grid-template-columns:1fr 1fr;gap:0 1.6rem;margin:.5rem 0 .2rem}
+.bi > div > p{margin:0 0 .5rem}
+.bi .en{color:var(--ink-2)}
+.bi .en p{font-size:9.8pt}
+p,li{orphans:3;widows:3}
+h2 + .bi{page-break-inside:avoid}
+@media (max-width:640px){.bi{grid-template-columns:1fr;gap:0}
+  .bi .en{border-top:1px dotted var(--line);padding-top:.5rem;margin-top:.2rem}}
+
+pre{background:var(--code-bg);border:1px solid var(--line);border-radius:5px;
+  padding:.6rem .8rem;margin:.5rem 0 .85rem;font-family:var(--f-mono);
+  font-size:8.6pt;line-height:1.65;overflow-x:auto;page-break-inside:avoid;color:var(--ink)}
+pre i{color:var(--ink-3);font-style:normal}
+code{font-family:var(--f-mono);font-size:.88em;background:var(--code-bg);
+  padding:.08em .3em;border-radius:3px}
+
+.step{border-left:2px solid var(--main);padding:.15rem 0 .1rem .85rem;
+  margin:.85rem 0;page-break-inside:avoid}
+.step .h{font-weight:700;font-size:10.5pt;margin:0 0 .1rem}
+.step .h .num{font-family:var(--f-mono);color:var(--main);margin-right:.4rem;font-size:9pt}
+.step .h .alt{font-weight:500;color:var(--ink-3);font-size:9.5pt}
+.step .bi{margin:.2rem 0 .1rem}
+.tip{font-size:9pt;color:var(--ink-3);margin:.35rem 0 0;line-height:1.5}
+
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin:.85rem 0 .3rem}
+@media (max-width:640px){.rules{grid-template-columns:1fr}}
+.rule{border:1px solid var(--line);border-radius:5px;padding:.55rem .7rem;
+  page-break-inside:avoid}
+.rule b{display:block;font-size:9.8pt;margin-bottom:.1rem}
+.rule .alt{display:block;font-size:8.6pt;color:var(--ink-3);line-height:1.45}
+
+.note{background:var(--main-soft);border-left:3px solid var(--main);
+  padding:.55rem .8rem;border-radius:0 4px 4px 0;margin:1rem 0;
+  font-size:9.5pt;page-break-inside:avoid}
+.note p{margin:0 0 .25rem}
+.note p:last-child{margin:0;color:var(--ink-2);font-size:9pt}
+
+footer{margin-top:1.1rem;padding-top:.6rem;border-top:1px solid var(--line);
+  font-family:var(--f-mono);font-size:7.8pt;color:var(--ink-3);line-height:1.7}
+
+@page{size:A4;margin:14mm 13mm}
+@media print{.page{max-width:none;padding:0}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <p class="kick">AI Travel Planning System · FIT3161 / FIT3162</p>
+  <h1>短命分支工作流<span class="alt">Short-Lived Branch Workflow</span></h1>
+</header>
+
+<h2><span class="n">01</span>为什么要这样做<span class="alt">Why</span></h2>
+<div class="bi">
+  <div class="zh">
+    <p>我们之前有 <code>frontend</code> 和 <code>backend</code> 两条长期分支,各写各的。问题是它们<strong>永远不会自己合并</strong>——等到要联调时才发现前端对着旧接口在写,后端的字段早改名了。而 git 这时候<strong>一个冲突都不会报</strong>,因为两边改的是不同文件。合并"成功"了,跑起来却全是 <code>undefined</code>。</p>
+    <p>短命分支反过来:<strong>写完一个功能就合回 main</strong>。集成不再是学期末的一场灾难,而是每天的一件小事。任何人问"现在做到哪了",答案永远是"你看 main"。</p>
+  </div>
+  <div class="en">
+    <p>We used to keep two long-lived branches, <code>frontend</code> and <code>backend</code>, each going its own way. They <strong>never merge on their own</strong> — by integration time the frontend is built against an old API and the backend has renamed half its fields. And git reports <strong>zero conflicts</strong>, because the two sides edited different files. The merge "succeeds" and the app is full of <code>undefined</code>.</p>
+    <p>Short-lived branches invert this: <strong>finish a feature, merge it back into main</strong>. Integration stops being an end-of-semester disaster and becomes a daily non-event. Whenever anyone asks where we are, the answer is always "look at main".</p>
+  </div>
+</div>
+
+<div class="rules">
+  <div class="rule">
+    <b>一个功能,一条分支</b>
+    <span class="alt">One feature, one branch.</span>
+  </div>
+  <div class="rule">
+    <b>写完就合回 main</b>
+    <span class="alt">Merge back as soon as it's done.</span>
+  </div>
+  <div class="rule">
+    <b>main 永远能跑</b>
+    <span class="alt">main always runs — everything goes through a PR.</span>
+  </div>
+</div>
+
+<h2><span class="n">02</span>怎么用<span class="alt">How</span></h2>
+
+<div class="step">
+  <p class="h"><span class="num">1</span>从最新的 main 切分支 <span class="alt">Branch off the latest main</span></p>
+  <div class="bi">
+    <div class="zh"><p>先拉 main,再切分支。顺序反了会带着旧代码开工。</p></div>
+    <div class="en"><p>Pull first, then branch — the other order starts you from stale code.</p></div>
+  </div>
+<pre>git switch main
+git pull
+git switch -c feat/be-trip-crud     <i># -c = 新建并切过去 / create and switch</i></pre>
+</div>
+
+<div class="step">
+  <p class="h"><span class="num">2</span>干活,小步提交 <span class="alt">Work, commit in small steps</span></p>
+  <div class="bi">
+    <div class="zh"><p>不用等全部写完才提交。写完一个能跑的小块就提交一次。</p></div>
+    <div class="en"><p>Don't wait until everything is done — commit whenever a small piece works.</p></div>
+  </div>
+<pre>git add .
+git commit -m "feat(trips): add trip creation endpoint"</pre>
+  <p class="tip">如果这个功能做了好几天,中途 <code>git fetch origin &amp;&amp; git merge origin/main</code> 同步一下,免得后面冲突堆太多。<br>
+  If the feature takes several days, run that once in a while so conflicts don't pile up.</p>
+</div>
+
+<div class="step">
+  <p class="h"><span class="num">3</span>推上去,开 PR <span class="alt">Push and open a PR</span></p>
+  <div class="bi">
+    <div class="zh"><p>推完 GitHub 会出现一个 "Compare &amp; pull request" 按钮,点它。描述里写清楚<strong>做了什么</strong>和<strong>怎么验证</strong>。</p></div>
+    <div class="en"><p>After pushing, GitHub shows a "Compare &amp; pull request" button — click it. Say <strong>what you did</strong> and <strong>how to verify it</strong>.</p></div>
+  </div>
+<pre>git push -u origin feat/be-trip-crud</pre>
+</div>
+
+<div class="step">
+  <p class="h"><span class="num">4</span>合并,然后删掉分支 <span class="alt">Merge, then delete the branch</span></p>
+  <div class="bi">
+    <div class="zh"><p>在 GitHub 上点 <strong>Squash and merge</strong>——它把你的十几个 commit 压成一个,main 的历史才干净。远端分支会自动删除,本地再清理一下。</p></div>
+    <div class="en"><p>Click <strong>Squash and merge</strong> — it collapses your dozen commits into one, keeping main's history clean. The remote branch is deleted automatically; clean up locally.</p></div>
+  </div>
+<pre>git switch main
+git pull
+git branch -d feat/be-trip-crud     <i># 删掉本地那条 / delete the local one</i></pre>
+</div>
+
+<h2><span class="n">03</span>分支怎么命名<span class="alt">Naming</span></h2>
+<div class="bi">
+  <div class="zh"><p>格式 <code>类型/领域-描述</code>,描述用小写英文加连字符。<br>
+  类型:<code>feat</code> 新功能 · <code>fix</code> 修 bug · <code>chore</code> 配置工具 · <code>docs</code> 文档 · <code>spike</code> 试验(可以不合并直接删)<br>
+  领域:<code>be</code> 后端 · <code>web</code> 前端 · <code>mob</code> 移动端 · <code>llm</code> LLM 层 · <code>api</code> 外部 API · <code>infra</code> Docker/CI</p></div>
+  <div class="en"><p>Format <code>type/scope-description</code>, lowercase and hyphenated.<br>
+  Types: <code>feat</code> new feature · <code>fix</code> bug fix · <code>chore</code> tooling · <code>docs</code> docs · <code>spike</code> experiment (fine to delete unmerged)<br>
+  Scopes: <code>be</code> backend · <code>web</code> web · <code>mob</code> mobile · <code>llm</code> LLM layer · <code>api</code> external APIs · <code>infra</code> Docker/CI</p></div>
+</div>
+
+<pre>feat/be-contracts-schemas          fix/be-jwt-refresh-expiry
+feat/llm-itinerary-prompt          chore/infra-docker-compose
+feat/api-google-places-adapter     spike/llm-structured-output
+feat/web-itinerary-timeline</pre>
+
+<h2><span class="n">04</span>速查<span class="alt">Cheat sheet</span></h2>
+<pre><i># 开始一个新功能 / start a new feature</i>
+git switch main &amp;&amp; git pull
+git switch -c feat/be-something
+
+<i># 干活 / work</i>
+git add . &amp;&amp; git commit -m "feat(scope): what you did"
+
+<i># 交出去 / hand it in</i>
+git push -u origin feat/be-something
+<i># 然后去 GitHub 开 PR → Squash and merge</i>
+
+<i># 收尾 / wrap up</i>
+git switch main &amp;&amp; git pull
+git branch -d feat/be-something
+
+<i># 我现在在哪条分支? / which branch am I on?</i>
+git status</pre>
+
+<div class="note">
+  <p><strong>只记一句的话:</strong>从 main 切一条分支,功能写完就合回 main,合完删掉。</p>
+  <p><strong>If you remember one thing:</strong> branch off main, merge back when the feature is done, delete the branch.</p>
+</div>
+
+<footer>
+  AI Travel Planning System · FIT3161 / FIT3162 · Team Git Guide v1.0<br>
+  规则有调整会更新这份文档并在组群通知 · Updated and announced in the group chat whenever the rules change
+</footer>
+
+</div>
+</body>
+</html>
