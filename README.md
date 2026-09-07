@@ -75,7 +75,7 @@ Trip sharing for group planning · advanced multi-language support
 
 | Member | Role | Responsibilities |
 |---|---|---|
-| **Chen Jia** | Backend Developer · Project Lead | Backend architecture, database design, server development, project coordination |
+| **Chen Jia** | Backend Developer | Backend architecture, database design, server development, project coordination |
 | **Chan Eunice** | LLM Engineer | LLM integration, prompt engineering, AI agent logic, itinerary generation |
 | **Tom Wong Ren Syuen** | API Developer | External API integration, data fetching, third-party service connections |
 | **Ting Jing Hao** | Frontend Developer | Web and mobile UI, itinerary display, user interaction |
