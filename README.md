@@ -95,7 +95,7 @@ git push -u origin feat/be-trip-crud
 
 Branch names follow `type/scope-description` — for example `feat/be-trip-crud`, `fix/web-date-picker`, `chore/infra-ci`.
 
-Full conventions: [`CONTRIBUTING.md`](CONTRIBUTING.md) · Quick guide (中英对照): [`docs/git-guide.pdf`](docs/git-guide.pdf)
+Full conventions: Quick guide (中英对照): [`docs/git-guide.pdf`](docs/git-guide.pdf)
 
 ---
 
