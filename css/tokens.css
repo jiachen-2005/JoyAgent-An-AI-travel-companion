@@ -1,0 +1,123 @@
+/* ==========================================================================
+   VoyAgent Design Tokens
+   FIT3161 - Personal AI Travel Companion
+   ========================================================================== */
+
+:root {
+  /* Brand Palette - Warm Adventure & Sky Navigation */
+  --primary-50: #F0F9FF;
+  --primary-100: #E0F2FE;
+  --primary-200: #BAE6FD;
+  --primary-300: #7DD3FC;
+  --primary-400: #38BDF8;
+  --primary-500: #0EA5E9;
+  --primary-600: #0284C7;
+  --primary-700: #0369A1;
+
+  --accent-50: #FFFBEB;
+  --accent-100: #FEF3C7;
+  --accent-200: #FDE68A;
+  --accent-300: #FCD34D;
+  --accent-400: #FBBF24;
+  --accent-500: #F59E0B; /* Warm Golden Amber */
+  --accent-600: #D97706;
+  --accent-700: #B45309;
+
+  --success-500: #10B981;
+  --success-bg: #ECFDF5;
+  --warning-500: #F59E0B;
+  --warning-bg: #FFFBEB;
+  --danger-500: #EF4444;
+  --danger-bg: #FEF2F2;
+  --info-500: #3B82F6;
+  --info-bg: #EFF6FF;
+
+  /* Neutrals - Default Light Mode */
+  --bg-app: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-surface-alt: #F1F5F9;
+  --bg-surface-elevated: #FFFFFF;
+  --bg-glass: rgba(255, 255, 255, 0.85);
+  --bg-sidebar: #FFFFFF;
+
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+  --text-inverse: #FFFFFF;
+
+  --border-subtle: #E2E8F0;
+  --border-medium: #CBD5E1;
+  --border-focus: #0284C7;
+
+  /* Typography */
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Outfit', var(--font-sans);
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, Menlo, monospace;
+
+  /* Spacing Scale */
+  --space-1: 0.25rem;  /* 4px */
+  --space-2: 0.5rem;   /* 8px */
+  --space-3: 0.75rem;  /* 12px */
+  --space-4: 1rem;     /* 16px */
+  --space-5: 1.25rem;  /* 20px */
+  --space-6: 1.5rem;   /* 24px */
+  --space-8: 2rem;     /* 32px */
+  --space-10: 2.5rem;  /* 40px */
+  --space-12: 3rem;    /* 48px */
+
+  /* Border Radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-full: 9999px;
+
+  /* Elevation & Shadows */
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 2px 6px -1px rgba(15, 23, 42, 0.06), 0 1px 3px -1px rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 6px 16px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 14px 28px -4px rgba(15, 23, 42, 0.12), 0 4px 10px -2px rgba(15, 23, 42, 0.05);
+  --shadow-glow: 0 0 20px rgba(14, 165, 233, 0.25);
+  --shadow-amber-glow: 0 0 20px rgba(245, 158, 11, 0.3);
+
+  /* Animation & Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Layout dimensions */
+  --sidebar-width: 280px;
+  --workspace-width: 460px;
+  --header-height: 64px;
+}
+
+/* Dark Theme Overrides */
+[data-theme="dark"] {
+  --bg-app: #0B0F19;
+  --bg-surface: #111827;
+  --bg-surface-alt: #1E293B;
+  --bg-surface-elevated: #1F293D;
+  --bg-glass: rgba(17, 24, 39, 0.88);
+  --bg-sidebar: #0F172A;
+
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #64748B;
+  --text-inverse: #0F172A;
+
+  --border-subtle: #1E293B;
+  --border-medium: #334155;
+  --border-focus: #38BDF8;
+
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 2px 8px -1px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px -2px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 16px 36px -4px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 25px rgba(56, 189, 248, 0.25);
+  --shadow-amber-glow: 0 0 25px rgba(245, 158, 11, 0.35);
+
+  --success-bg: rgba(16, 185, 129, 0.15);
+  --warning-bg: rgba(245, 158, 11, 0.15);
+  --danger-bg: rgba(239, 68, 68, 0.15);
+  --info-bg: rgba(59, 130, 246, 0.15);
+}

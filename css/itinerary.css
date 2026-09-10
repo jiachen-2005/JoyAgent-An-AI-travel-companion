@@ -1,0 +1,390 @@
+/* ==========================================================================
+   VoyAgent Itinerary & Dynamic Replanning Styles
+   ========================================================================== */
+
+.itinerary-card-container {
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+/* Trip Meta Header */
+.trip-summary-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.trip-title-group h3 {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.trip-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.trip-badges-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  background: var(--bg-surface-alt);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.badge-tag.accent {
+  background: var(--accent-100);
+  color: var(--accent-700);
+  border-color: var(--accent-200);
+}
+
+[data-theme="dark"] .badge-tag.accent {
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--accent-400);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+/* Day Selector Navigation Tabs */
+.itinerary-day-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.day-tab-btn {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface-alt);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.day-tab-btn:hover {
+  border-color: var(--primary-300);
+  color: var(--text-primary);
+}
+
+.day-tab-btn.active {
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-500));
+  border-color: transparent;
+  color: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.day-tab-sub {
+  font-size: 0.7rem;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+/* Dynamic Replanning Interactive Simulation Banner */
+.replanning-simulation-banner {
+  background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+  border: 1.5px dashed var(--accent-400);
+  border-radius: var(--radius-lg);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  box-shadow: var(--shadow-xs);
+}
+
+[data-theme="dark"] .replanning-simulation-banner {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.15) 100%);
+  border-color: var(--accent-500);
+}
+
+.replanning-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.replanning-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-700);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+[data-theme="dark"] .replanning-title {
+  color: var(--accent-400);
+}
+
+.replanning-desc {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.replanning-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.btn-simulate-event {
+  padding: 6px 12px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--accent-500);
+  background: var(--bg-surface);
+  color: var(--accent-700);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+[data-theme="dark"] .btn-simulate-event {
+  color: var(--accent-300);
+  background: var(--bg-surface-elevated);
+}
+
+.btn-simulate-event:hover {
+  background: var(--accent-500);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Timeline Activity Items */
+.timeline-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  position: relative;
+}
+
+.timeline-item {
+  display: flex;
+  gap: var(--space-4);
+  position: relative;
+}
+
+.timeline-left-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 32px;
+  flex-shrink: 0;
+}
+
+.slot-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--primary-100);
+  border: 2px solid var(--primary-500);
+  color: var(--primary-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 800;
+  z-index: 2;
+  box-shadow: var(--shadow-xs);
+}
+
+[data-theme="dark"] .slot-circle {
+  background: rgba(14, 165, 233, 0.2);
+  color: var(--primary-300);
+}
+
+.timeline-connector-line {
+  flex: 1;
+  width: 2px;
+  background-color: var(--border-subtle);
+  margin: 4px 0;
+}
+
+/* Activity Card */
+.activity-card {
+  flex: 1;
+  background: var(--bg-surface-alt);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.activity-card:hover {
+  border-color: var(--primary-300);
+  background: var(--bg-surface-elevated);
+  box-shadow: var(--shadow-sm);
+}
+
+.activity-card.replanned-highlight {
+  border: 1.5px solid var(--accent-500);
+  background: var(--warning-bg);
+  animation: highlight-pulse 1.2s ease-in-out;
+}
+
+@keyframes highlight-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.015); box-shadow: var(--shadow-amber-glow); }
+  100% { transform: scale(1); }
+}
+
+.activity-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.activity-time-slot {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary-600);
+  font-family: var(--font-mono);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+[data-theme="dark"] .activity-time-slot {
+  color: var(--primary-400);
+}
+
+.replanned-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  background: var(--accent-500);
+  color: white;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.activity-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.activity-desc {
+  font-size: 0.83rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.activity-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-2);
+  border-top: 1px dashed var(--border-subtle);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.activity-cost {
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.activity-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.btn-card-action {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 3px 8px;
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-card-action:hover {
+  background: var(--bg-surface-elevated);
+  color: var(--primary-600);
+  border-color: var(--primary-300);
+}
+
+/* Transit Step Line Between Activities */
+.transit-step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-left: 15px;
+  padding: var(--space-1) 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.transit-icon {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.transit-info {
+  background: var(--bg-surface-alt);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  border: 1px dashed var(--border-subtle);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
