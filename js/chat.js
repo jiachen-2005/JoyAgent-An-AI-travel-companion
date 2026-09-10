@@ -23,10 +23,12 @@ class VoyAgentChat {
         }
       });
 
-      // Auto-expand textarea
+      // Auto-expand textarea without accidental scrollbars
       this.textarea.addEventListener("input", () => {
-        this.textarea.style.height = "24px";
-        this.textarea.style.height = Math.min(this.textarea.scrollHeight, 120) + "px";
+        this.textarea.style.height = "26px";
+        const newHeight = Math.min(this.textarea.scrollHeight, 120);
+        this.textarea.style.height = newHeight + "px";
+        this.textarea.style.overflowY = this.textarea.scrollHeight > 120 ? "auto" : "hidden";
       });
     }
 
@@ -40,7 +42,8 @@ class VoyAgentChat {
     if (!text || this.isStreaming) return;
 
     this.textarea.value = "";
-    this.textarea.style.height = "24px";
+    this.textarea.style.height = "26px";
+    this.textarea.style.overflowY = "hidden";
 
     // Hide welcome hero if still visible
     const hero = document.getElementById("welcome-hero-state");

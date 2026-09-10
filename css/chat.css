@@ -314,12 +314,18 @@
   border: none;
   background: transparent;
   resize: none;
-  font-size: 0.98rem;
+  font-size: 0.95rem;
   color: var(--text-primary);
   outline: none;
   max-height: 120px;
-  line-height: 1.5;
-  height: 28px;
+  line-height: 26px;
+  height: 26px;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.chat-textarea::-webkit-scrollbar {
+  display: none;
 }
 
 .chat-textarea::placeholder {
