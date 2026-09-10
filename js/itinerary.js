@@ -54,18 +54,18 @@ class VoyAgentItinerary {
           <div class="replanning-simulation-banner">
             <div class="replanning-text">
               <span class="replanning-title">
-                ⚡ Agentic Dynamic Replanning Simulator
+                ⚡ Adaptive Trip Assistant · Weather Simulation
               </span>
               <span class="replanning-desc">
                 ${this.isReplannedDay2 
-                  ? '✅ Active: Heavy rain detected. AI has dynamically swapped outdoor mountain hikes with indoor cultural heritage.'
-                  : 'Simulate unexpected trip disruptions to experience real-time AI weather adaptation.'}
+                  ? '✅ Active: Heavy rain detected. Outdoor mountain paths have been swapped with sheltered cultural highlights.'
+                  : 'Test how VoyAgent automatically adapts your itinerary when sudden afternoon rain is detected.'}
               </span>
             </div>
             <div class="replanning-actions">
               ${!this.isReplannedDay2 ? `
                 <button class="btn-simulate-event" onclick="voyAgentApp.itinerary.triggerRainReplanning()">
-                  🌧️ Simulate Heavy Rain (14:00)
+                  🌧️ Simulate Afternoon Rain (14:00)
                 </button>
               ` : `
                 <button class="btn-simulate-event" onclick="voyAgentApp.itinerary.revertDay2()">
@@ -151,15 +151,17 @@ class VoyAgentItinerary {
   }
 
   triggerRainReplanning() {
-    this.app.showToast("🌦️ Weather disruption triggered! Agent replanning...", "info");
+    this.app.showToast("🌦️ Weather alert detected! Adapting afternoon schedule...", "info");
 
-    // Add replanning message in chat stream with tool-call animation
+    // Add replanning message in chat stream with friendly steps
     const replanData = window.VOYAGENT_DATA.replannedKyotoDay2;
     
     if (this.app.chat) {
       this.app.chat.appendAgentMessageWithTools({
-        content: `⚠️ **Weather Alert Triggered!** A severe rainstorm (85% precipitation, 18mm) has been detected for Kyoto on **Day 2 at 14:00**.\n\n` +
-                 `I have dynamically analyzed your preferences and safety constraints. The outdoor hike to **Iwatayama Monkey Park** and **Kinkaku-ji** outdoor grounds have been replaced with **Kyoto National Museum** (climate-controlled Meiji wing) and **Nishiki Market** (400m fully covered dining arcade). Transit routes have been updated to sheltered subway and tram connections.`,
+        content: `⚠️ **Weather Advisory for Day 2!** An afternoon rainstorm is forecast for Kyoto starting around **14:00**.\n\n` +
+                 `To keep your journey enjoyable and safe, I've adjusted your afternoon schedule:\n` +
+                 `- Replaced the outdoor hike up **Iwatayama Monkey Park** and open grounds of **Kinkaku-ji** with the dry, climate-controlled **Kyoto National Museum** and the 400m covered **Nishiki Market** arcade.\n` +
+                 `- Updated transit paths to use sheltered tram and subway connections.`,
         tools: replanData.toolCalls
       });
     }

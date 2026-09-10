@@ -47,9 +47,9 @@
           <span id="header-trip-title">Kyoto Autumn Cultural Odyssey</span>
         </div>
 
-        <div class="agent-live-pulse" title="Connected to Single AI Agent with Tool Calling Architecture">
+        <div class="agent-live-pulse" title="VoyAgent AI Travel Companion Online">
           <span class="pulse-dot"></span>
-          <span>Agent Ready · Tools Online</span>
+          <span>VoyAgent Online · Itinerary Ready</span>
         </div>
       </div>
 
@@ -193,44 +193,47 @@
             <!-- Agent Initial Welcome Message -->
             <div class="message-row agent">
               <div class="message-avatar agent-avatar">VA</div>
-              <div class="message-content">
-                <!-- Tool Execution Chain -->
+                <!-- Thought & Planning Steps -->
                 <div class="tool-execution-box">
                   <div class="tool-header-toggle">
-                    <span>⚡ Initializing VoyAgent Single-Agent Tool Engine</span>
-                    <span class="tool-badge-counter">4 Tools Synchronized</span>
+                    <span>✨ Trip Preparation & Planning Steps</span>
+                    <span class="tool-badge-counter">4 Checks Completed</span>
                   </div>
                   <div class="tool-steps-list">
                     <div class="tool-step-item">
-                      <span class="step-icon">🌤️</span>
-                      <span class="step-name">WeatherAPI.check_forecast</span>
-                      <span class="step-arg">(city='Kyoto', horizon=4)</span>
-                      <span class="step-status-ok">✔ Day 2 Rain Alert Cached</span>
+                      <div class="step-left">
+                        <span class="step-icon">🌤️</span>
+                        <span>Local weather forecast & seasonal climate verified</span>
+                      </div>
+                      <span class="step-status-ok">✔ Day 2 rain alert noted</span>
                     </div>
                     <div class="tool-step-item">
-                      <span class="step-icon">📍</span>
-                      <span class="step-name">GooglePlacesAPI.batch_fetch</span>
-                      <span class="step-arg">(location='Kyoto', count=13)</span>
-                      <span class="step-status-ok">✔ 13 POIs Geocoded</span>
+                      <div class="step-left">
+                        <span class="step-icon">📍</span>
+                        <span>Curated top-rated cultural highlights & local dining</span>
+                      </div>
+                      <span class="step-status-ok">✔ 13 places selected</span>
                     </div>
                     <div class="tool-step-item">
-                      <span class="step-icon">🗺️</span>
-                      <span class="step-name">TransitRoutingAPI.matrix</span>
-                      <span class="step-arg">(mode='walking+rail')</span>
-                      <span class="step-status-ok">✔ Routes Optimized</span>
+                      <div class="step-left">
+                        <span class="step-icon">🗺️</span>
+                        <span>Scenic walking paths and transit connections mapped</span>
+                      </div>
+                      <span class="step-status-ok">✔ Routes optimized</span>
                     </div>
                     <div class="tool-step-item">
-                      <span class="step-icon">💰</span>
-                      <span class="step-name">BudgetGuard.allocate</span>
-                      <span class="step-arg">(cap='¥180,000')</span>
-                      <span class="step-status-ok">✔ ¥142,500 Planned</span>
+                      <div class="step-left">
+                        <span class="step-icon">💰</span>
+                        <span>Accommodation & activity expenses balanced</span>
+                      </div>
+                      <span class="step-status-ok">✔ Within planned budget</span>
                     </div>
                   </div>
                 </div>
 
                 <div class="message-bubble">
-                  Hello! I am <strong>VoyAgent</strong>, your personal AI travel companion. I've curated your <strong>4-Day Kyoto Cultural Odyssey</strong> below with live GPS routes and budget breakdown.<br><br>
-                  👉 Try clicking <strong>"Simulate Heavy Rain (14:00)"</strong> on Day 2 to experience our dynamic replanning capability!
+                  Hello! I'm <strong>VoyAgent</strong>, your personal AI travel companion. I've curated a thoughtful <strong>4-Day Kyoto Cultural Odyssey</strong> below, complete with live route mapping and budget breakdown.<br><br>
+                  💡 <em>Tip: Try clicking <strong>"Simulate Heavy Rain (14:00)"</strong> on Day 2 to see how I automatically adjust outdoor activities to sheltered alternatives!</em>
                 </div>
               </div>
             </div>

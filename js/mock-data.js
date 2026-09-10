@@ -325,17 +325,17 @@ window.VOYAGENT_DATA = {
 
   // Dynamic Replanning Event: Kyoto Day 2 Afternoon Rainstorm
   replannedKyotoDay2: {
-    event: "Heavy Rainstorm & Thunderstorms (85% prob at 14:00, 18mm rainfall)",
+    event: "Afternoon Heavy Rain Alert in Kyoto (Expected from 14:00)",
     agentReasoning: [
-      "⚠️ Weather Alert detected via WeatherAPI: Arashiyama outdoor elevation and hiking trails (Monkey Park) are dangerous and muddy under heavy rain.",
-      "🔍 Querying Google Places API for indoor cultural attractions within 25 min transit radius.",
-      "💡 Replaced outdoor hike with Kyoto National Museum (indoor Heian art collection) + sheltered Nishiki Market foodie arcade.",
-      "🗺️ Updated routing via Keifuku Electric Railway & Subway Tozai line. Transit time: 24 minutes."
+      "Weather Alert: Arashiyama outdoor hiking trail (Monkey Park) is exposed and slippery in heavy rain.",
+      "Indoor Search: Discovered top-rated sheltered attractions within 25 min transit radius.",
+      "Schedule Swap: Replaced outdoor mountain walk with Kyoto National Museum & covered Nishiki Market arcade.",
+      "Transit Adjusted: Switched to covered Randen tram and Tozai subway line."
     ],
     toolCalls: [
-      { name: "WeatherAPI.get_hourly_forecast", args: "location='Kyoto', hour=14", status: "🌧️ 18mm rain, wind 28km/h" },
-      { name: "PlacesAPI.search_indoor_pois", args: "type='museum|covered_market', rating>=4.6", status: "Found: Kyoto National Museum, Nishiki Market" },
-      { name: "TransitRoutingAPI.compute_route", args: "from='Arashiyama' to='Kyoto National Museum'", status: "24m via Keifuku Randen & Tozai Line" }
+      { step: "Precipitation Forecast Check", detail: "Heavy rainfall window expected 14:00 - 18:00", icon: "🌧️" },
+      { step: "Sheltered Attractions Search", detail: "Found Kyoto National Museum & covered Nishiki Market", icon: "🏛️" },
+      { step: "Comfortable Transit Rerouting", detail: "24 min via covered tram & subway line", icon: "🚇" }
     ],
     newSlots: [
       {
@@ -367,7 +367,7 @@ window.VOYAGENT_DATA = {
         time: "14:15 - 16:45",
         title: "Kyoto National Museum (Indoor Masterpieces)",
         category: "🏛️ Sheltered Museum",
-        desc: "✨ [REPLANNED FOR RAIN] Admire historic Buddhist sculptures, exquisite samurai armor and Japanese calligraphy in the dry, climate-controlled Meiji pavilion.",
+        desc: "Admire historic Buddhist sculptures, exquisite samurai armor and Japanese calligraphy in the comfortable, climate-controlled Meiji pavilion away from the rain.",
         location: "Higashiyama Ward, Kyoto",
         coords: [34.9902, 135.7728],
         rating: "4.7 (7.2k)",
@@ -381,7 +381,7 @@ window.VOYAGENT_DATA = {
         time: "17:00 - 19:30",
         title: "Nishiki Market 'Kyoto's Kitchen' Covered Arcade",
         category: "🥢 Sheltered Foodie Haven",
-        desc: "✨ [REPLANNED FOR RAIN] A 400-year-old 5-block covered shopping street completely protected from weather. Sample fresh grilled eel, dashi tamago, and artisanal wagashi.",
+        desc: "A 400-year-old 5-block covered shopping street completely protected from weather. Sample fresh grilled eel, dashi tamago, and artisanal wagashi.",
         location: "Nakagyo Ward, Kyoto",
         coords: [35.0050, 135.7652],
         rating: "4.7 (16k)",

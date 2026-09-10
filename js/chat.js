@@ -75,16 +75,17 @@ class VoyAgentChat {
       toolsHtml = `
         <div class="tool-execution-box">
           <div class="tool-header-toggle">
-            <span>⚡ Agent Tool Execution Chain</span>
-            <span class="tool-badge-counter">${tools.length} Tools Executed</span>
+            <span>✨ Trip Preparation & Planning Steps</span>
+            <span class="tool-badge-counter">${tools.length} Checks Completed</span>
           </div>
           <div class="tool-steps-list">
             ${tools.map(t => `
               <div class="tool-step-item">
-                <span class="step-icon">⚙️</span>
-                <span class="step-name">${t.name}</span>
-                <span class="step-arg">(${t.args})</span>
-                <span class="step-status-ok">✔ ${t.status}</span>
+                <div class="step-left">
+                  <span class="step-icon">${t.icon || '✓'}</span>
+                  <span>${t.step}</span>
+                </div>
+                <span class="step-status-ok">✔ ${t.detail}</span>
               </div>
             `).join('')}
           </div>
@@ -135,12 +136,12 @@ class VoyAgentChat {
         typingRow.parentNode.removeChild(typingRow);
       }
 
-      // Default tools for travel planning
+      // Friendly travel planning steps (No developer code syntax)
       const defaultTools = [
-        { name: "PlacesAPI.search_attractions", args: `destination='${targetTrip.destination}', pace='moderate'`, status: "Matched 16 POIs" },
-        { name: "WeatherAPI.fetch_forecast_window", args: `city='${targetTrip.destination}', days=4`, status: "Forecast Loaded" },
-        { name: "TransitRoutingAPI.matrix", args: `mode='public_transport+walk'`, status: "Optimal Paths Computed" },
-        { name: "BudgetEngine.optimize_allocation", args: `target='${targetTrip.budget.total}'`, status: "Allocation Balanced" }
+        { icon: "📍", step: `Curated top-rated cultural highlights & dining for ${targetTrip.destination}`, detail: "16 places selected" },
+        { icon: "🌤️", step: "Checked seasonal weather forecast & rain probability", detail: "Outlook analyzed" },
+        { icon: "🗺️", step: "Mapped scenic walking routes and transit connections", detail: "Routes optimized" },
+        { icon: "💰", step: "Balanced estimated costs with your target budget", detail: `Within ${targetTrip.budget.total}` }
       ];
 
       this.appendAgentMessageWithTools({
