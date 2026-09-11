@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VoyAgent · Personal AI Travel Companion</title>
+  <meta name="description" content="VoyAgent - Intelligent multi-day travel planner with tool-calling AI agent, weather-adaptive itineraries and dynamic replanning. FIT3161 FYP PCS-19.">
+
+  <!-- Google Fonts: Outfit (Brand & Headings), Plus Jakarta Sans (UI Body), JetBrains Mono (Tool Calls & Data) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Leaflet.js for Interactive Mapping -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Modular CSS Design System -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/chat.css">
+  <link rel="stylesheet" href="css/itinerary.css">
+  <link rel="stylesheet" href="css/workspace.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- Top Global App Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <button class="btn-icon" id="btn-toggle-sidebar" title="Toggle Sidebar" aria-label="Toggle Navigation Sidebar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+
+        <a href="#" class="brand-badge" onclick="event.preventDefault(); voyAgentApp.startNewTrip();">
+          <div class="brand-icon">V</div>
+          <div class="brand-title">
+            <span>VoyAgent</span>
+            <span class="brand-tag">AI Companion</span>
+          </div>
+        </a>
+      </div>
+
+      <div class="header-center">
+        <div class="trip-title-chip">
+          <span style="font-size: 1rem;">✈️</span>
+          <span id="header-trip-title">Kyoto Autumn Cultural Odyssey</span>
+        </div>
+
+        <div class="agent-live-pulse" title="VoyAgent AI Travel Companion Online">
+          <span class="pulse-dot"></span>
+          <span>VoyAgent Online · Itinerary Ready</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <button class="btn-pill" id="btn-theme-toggle" title="Toggle Dark/Light Mode">
+          <span id="theme-icon">☀️</span>
+          <span style="font-size: 0.78rem;">Theme</span>
+        </button>
+
+        <button class="btn-pill" id="btn-export-trip" title="Export Itinerary as Markdown">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <span>Export</span>
+        </button>
+
+        <button class="btn-icon" id="btn-toggle-workspace" title="Toggle Map & Workspace Panel" aria-label="Toggle Workspace Panel">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="15" y1="3" x2="15" y2="21"></line></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Viewport (3 Columns) -->
+    <div class="main-viewport">
+      
+      <!-- 1. Left Sidebar Panel -->
+      <aside class="sidebar-panel" id="sidebar-panel">
+        <div class="sidebar-header">
+          <button class="btn-new-trip" id="btn-new-trip">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span>Plan New Trip</span>
+          </button>
+        </div>
+
+        <div class="sidebar-content">
+          <!-- Travel Personas Quick-Switch -->
+          <div>
+            <div class="sidebar-section-title">
+              <span>Traveler Persona</span>
+            </div>
+            <div class="persona-grid">
+              <div class="persona-chip active" data-persona="Solo Backpacker">
+                <span style="font-weight: 700;">🎒 Solo/Couple</span>
+                <span style="font-size: 0.68rem; opacity: 0.8;">Cultural & Flexible</span>
+              </div>
+              <div class="persona-chip" data-persona="Foodie Explorer">
+                <span style="font-weight: 700;">🍜 Foodie</span>
+                <span style="font-size: 0.68rem; opacity: 0.8;">Local Dining Focus</span>
+              </div>
+              <div class="persona-chip" data-persona="Family Leisure">
+                <span style="font-weight: 700;">👨‍👩‍👧 Family Relaxed</span>
+                <span style="font-size: 0.68rem; opacity: 0.8;">Low Pace & Comfort</span>
+              </div>
+              <div class="persona-chip" data-persona="Fast-Paced Business">
+                <span style="font-weight: 700;">💼 Business Ext</span>
+                <span style="font-size: 0.68rem; opacity: 0.8;">Time-Sensitive</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trip History / Active Sessions -->
+          <div>
+            <div class="sidebar-section-title">
+              <span>Saved Journeys</span>
+              <span style="font-size: 0.65rem;">2 Sessions</span>
+            </div>
+            <div class="trip-history-list">
+              <div class="trip-item active" data-trip="kyoto" onclick="voyAgentApp.loadTrip('kyoto')">
+                <div class="trip-item-title">🇯🇵 Kyoto Autumn Odyssey</div>
+                <div class="trip-item-meta">
+                  <span>4 Days</span>
+                  <span>·</span>
+                  <span>¥180,000</span>
+                  <span>·</span>
+                  <span>Weather-tracked</span>
+                </div>
+              </div>
+
+              <div class="trip-item" data-trip="melbourne" onclick="voyAgentApp.loadTrip('melbourne')">
+                <div class="trip-item-title">🇦🇺 Melbourne & Ocean Road</div>
+                <div class="trip-item-meta">
+                  <span>3 Days</span>
+                  <span>·</span>
+                  <span>A$1,200</span>
+                  <span>·</span>
+                  <span>Scenic Route</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-footer">
+          <div>
+            <strong>Monash FIT3161</strong> · PCS-19
+          </div>
+          <span style="font-family: var(--font-mono); font-size: 0.7rem;">v0.9-alpha</span>
+        </div>
+      </aside>
+
+      <!-- 2. Center Chat & Itinerary Stream -->
+      <main class="chat-workspace">
+        <div class="chat-container">
+          <div class="messages-feed" id="messages-feed">
+            
+            <!-- Welcome Hero (Shown on blank or new trip) -->
+            <div class="welcome-hero" id="welcome-hero-state" style="display: none;">
+              <div class="hero-badge-pill">
+                <span>✨ Group PCS-19</span>
+                <span>·</span>
+                <span>Personal AI Travel Companion</span>
+              </div>
+              <h1 class="hero-title">
+                Where should your next<br><span>adventure begin?</span>
+              </h1>
+              <p class="hero-subtitle">
+                VoyAgent coordinates fragmented travel tools into one intelligent flow: multi-day itinerary generation, live weather adaptation, and instant dynamic replanning.
+              </p>
+
+              <!-- Prompt suggestion cards -->
+              <div class="suggested-prompts-grid">
+                <div class="prompt-card" onclick="voyAgentApp.chat.sendPresetPrompt('Plan a 4-day autumn cultural journey to Kyoto under ¥180,000 for a couple, focusing on temples and local food.')">
+                  <div class="prompt-icon">⛩️</div>
+                  <div class="prompt-headline">4-Day Kyoto Culture & Gastronomy</div>
+                  <div class="prompt-desc">Higashiyama temples, Gion dining, and Arashiyama bamboo path with weather guard.</div>
+                </div>
+
+                <div class="prompt-card" onclick="voyAgentApp.chat.sendPresetPrompt('Plan a 3-day Melbourne weekend road trip including specialty coffee and the Great Ocean Road sunset.')">
+                  <div class="prompt-icon">☕</div>
+                  <div class="prompt-headline">3-Day Melbourne & Coastal Drive</div>
+                  <div class="prompt-desc">CBD laneway coffee crawl, Queen Vic market, and Twelve Apostles coastal tour.</div>
+                </div>
+
+                <div class="prompt-card" onclick="voyAgentApp.chat.sendPresetPrompt('Show me how VoyAgent adapts when sudden afternoon rain hits an outdoor mountain itinerary.')">
+                  <div class="prompt-icon">⚡</div>
+                  <div class="prompt-headline">Dynamic Weather Replanning Demo</div>
+                  <div class="prompt-desc">Simulate heavy rain and observe how AI swaps outdoor climbs with sheltered museums.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Agent Initial Welcome Message -->
+            <div class="message-row agent">
+              <div class="message-avatar agent-avatar">VA</div>
+              <div class="message-content">
+                <!-- Thought & Planning Steps -->
+                <div class="tool-execution-box">
+                  <div class="tool-header-toggle">
+                    <span>✨ Trip Preparation & Planning Steps</span>
+                    <span class="tool-badge-counter">4 Checks Completed</span>
+                  </div>
+                  <div class="tool-steps-list">
+                    <div class="tool-step-item">
+                      <div class="step-left">
+                        <span class="step-icon">🌤️</span>
+                        <span>Local weather forecast & seasonal climate verified</span>
+                      </div>
+                      <span class="step-status-ok">✔ Day 2 rain alert noted</span>
+                    </div>
+                    <div class="tool-step-item">
+                      <div class="step-left">
+                        <span class="step-icon">📍</span>
+                        <span>Curated top-rated cultural highlights & local dining</span>
+                      </div>
+                      <span class="step-status-ok">✔ 13 places selected</span>
+                    </div>
+                    <div class="tool-step-item">
+                      <div class="step-left">
+                        <span class="step-icon">🗺️</span>
+                        <span>Scenic walking paths and transit connections mapped</span>
+                      </div>
+                      <span class="step-status-ok">✔ Routes optimized</span>
+                    </div>
+                    <div class="tool-step-item">
+                      <div class="step-left">
+                        <span class="step-icon">💰</span>
+                        <span>Accommodation & activity expenses balanced</span>
+                      </div>
+                      <span class="step-status-ok">✔ Within planned budget</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="message-bubble">
+                  Hello! I'm <strong>VoyAgent</strong>, your personal AI travel companion. I've curated a thoughtful <strong>4-Day Kyoto Cultural Odyssey</strong> below, complete with live route mapping and budget breakdown.<br><br>
+                  💡 <em>Tip: Try clicking <strong>"Simulate Heavy Rain (14:00)"</strong> on Day 2 to see how I automatically adjust outdoor activities to sheltered alternatives!</em>
+                </div>
+              </div>
+            </div>
+
+            <!-- Active Itinerary Container (Generated via JS) -->
+            <div id="active-itinerary-root"></div>
+
+          </div>
+
+          <!-- Floating Chat Input Bar -->
+          <div class="chat-input-bar-container">
+            <div class="input-wrapper">
+              <div class="input-field-row">
+                <textarea 
+                  class="chat-textarea" 
+                  id="chat-prompt-input" 
+                  placeholder="Ask VoyAgent anything (e.g. 'Plan 3 days in Tokyo')..." 
+                  rows="1"></textarea>
+                <button class="btn-send-message" id="btn-send" title="Send message" aria-label="Send message">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                </button>
+              </div>
+
+              <div class="input-actions-row">
+                <div class="tool-toggles">
+                  <span class="tool-chip-toggle active" title="Automatically track weather disruptions">
+                    <span>⛅</span> Weather Guard
+                  </span>
+                  <span class="tool-chip-toggle active" title="Calculate transit times & routes">
+                    <span>🗺️</span> Live Routing
+                  </span>
+                  <span class="tool-chip-toggle active" title="Keep spending within budget limits">
+                    <span>💰</span> Budget Engine
+                  </span>
+                  <span class="tool-chip-toggle active" title="Instant adjustment to in-trip changes">
+                    <span>⚡</span> Dynamic Replanning
+                  </span>
+                </div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">
+                  Press <kbd style="background: var(--bg-surface-alt); padding: 1px 4px; border-radius: 4px; border: 1px solid var(--border-subtle);">Enter ↵</kbd> to ask
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- 3. Right Workspace Panel (Map, Budget Guard, Weather Radar) -->
+      <aside class="workspace-panel" id="workspace-panel">
+        <div class="workspace-header">
+          <div class="workspace-nav-tabs">
+            <button class="tab-btn active" data-tab="map">
+              <span>🗺️ Route Map</span>
+            </button>
+            <button class="tab-btn" data-tab="budget">
+              <span>💰 Budget Guard</span>
+            </button>
+            <button class="tab-btn" data-tab="weather">
+              <span>⛅ Weather Radar</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="workspace-body">
+          <!-- Tab 1: Interactive Map -->
+          <div class="workspace-view active" id="map-view-container">
+            <div id="leaflet-map"></div>
+            <div class="map-floating-overlay">
+              <span class="map-filter-chip">📍 Synchronized with Itinerary</span>
+            </div>
+          </div>
+
+          <!-- Tab 2: Budget Guard -->
+          <div class="workspace-view" id="budget-view-container">
+            <div id="budget-panel-root"></div>
+          </div>
+
+          <!-- Tab 3: Weather Radar -->
+          <div class="workspace-view" id="weather-view-container">
+            <div id="weather-panel-root"></div>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Application Logic Scripts -->
+  <script src="js/mock-data.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/itinerary.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

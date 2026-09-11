@@ -1,0 +1,305 @@
+/* ==========================================================================
+   VoyAgent Workspace Panel Styles (Map, Budget Guard, Weather Radar)
+   ========================================================================== */
+
+/* Workspace Views Container */
+.workspace-view {
+  display: none;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+}
+
+.workspace-view.active {
+  display: flex;
+}
+
+/* 1. Map View */
+#map-view-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+#leaflet-map {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.map-floating-overlay {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  right: 18px;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+}
+
+.map-filter-chip {
+  pointer-events: auto;
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  padding: 8px 18px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Custom Leaflet Map Pin Styles */
+.custom-map-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50% 50% 50% 0;
+  background: linear-gradient(135deg, var(--accent-500), var(--accent-600));
+  transform: rotate(-45deg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  border: 2px solid white;
+  cursor: pointer;
+  transition: transform var(--transition-bounce);
+}
+
+.custom-map-marker:hover {
+  transform: rotate(-45deg) scale(1.15);
+}
+
+.marker-number {
+  transform: rotate(45deg);
+  color: white;
+  font-weight: 800;
+  font-size: 0.82rem;
+}
+
+/* Custom Popup */
+.leaflet-popup-content-wrapper {
+  background: var(--bg-surface) !important;
+  color: var(--text-primary) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-lg) !important;
+  padding: 0 !important;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+}
+
+.leaflet-popup-content {
+  margin: var(--space-4) var(--space-5) !important;
+  font-family: var(--font-sans) !important;
+  line-height: 1.5 !important;
+}
+
+.popup-title {
+  font-weight: 700;
+  font-size: 0.98rem;
+  color: var(--text-primary);
+  margin-bottom: 3px;
+}
+
+.popup-tag {
+  font-size: 0.74rem;
+  color: var(--primary-600);
+  font-weight: 600;
+}
+
+.popup-cost {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-top: 6px;
+}
+
+/* 2. Budget Guard View - Generous Spacing */
+.budget-panel-content {
+  padding: var(--space-6) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  overflow-y: auto;
+}
+
+.budget-hero-stat {
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  color: white;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.budget-total-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.budget-total-amount {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-family: var(--font-heading);
+}
+
+.budget-progress-track {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-top: var(--space-2);
+}
+
+.budget-progress-fill {
+  height: 100%;
+  width: 78%;
+  background: var(--accent-400);
+  border-radius: var(--radius-full);
+  transition: width 0.6s ease;
+}
+
+.budget-meta-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  opacity: 0.92;
+}
+
+/* Category Cost Breakdown */
+.budget-category-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.budget-category-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-5);
+  background: var(--bg-surface-alt);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+}
+
+.cat-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.cat-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.cat-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.cat-sub {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.cat-amount {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* 3. Weather Radar View */
+.weather-panel-content {
+  padding: var(--space-6) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  overflow-y: auto;
+}
+
+.weather-current-card {
+  background: linear-gradient(135deg, #0284C7 0%, #38BDF8 100%);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-md);
+}
+
+.weather-temp {
+  font-size: 3rem;
+  font-weight: 800;
+  font-family: var(--font-heading);
+  line-height: 1;
+}
+
+.weather-city {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.weather-forecast-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4);
+}
+
+.forecast-card {
+  background: var(--bg-surface-alt);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.forecast-card.alert-card {
+  border-color: var(--danger-500);
+  background: var(--danger-bg);
+}
+
+.forecast-day {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: space-between;
+}
+
+.forecast-condition {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 1.2rem;
+}
+
+.forecast-rain-prob {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--primary-600);
+}
+
+[data-theme="dark"] .forecast-rain-prob {
+  color: var(--primary-300);
+}
